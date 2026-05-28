@@ -347,7 +347,7 @@ tab1,tab2,tab3,tab4,tab5,tab6 = st.tabs(["Skills","Companies","Salary","Opportun
 with tab1:
     col1,col2 = st.columns([3,2])
     with col1:
-        st.markdown("#### 🔧 Top Skills in Demand")
+        st.markdown("#### Top Skills in Demand")
         top_sk = skill_freq.head(20)
         fig = go.Figure(go.Bar(
             x=top_sk['count'], y=top_sk['skill'], orientation='h',
@@ -497,7 +497,7 @@ Anthropic (score 82) — even Claude's maker is hiring aggressively.
 2. RAG (10.8%) — will hit 20% within 60 days
 3. LangGraph (2.8%) — early signal accelerating fast""")
     st.markdown(f"<div class='card card-accent' style='line-height:1.8;color:#c8d8f0;'>{brief}</div>", unsafe_allow_html=True)
-    st.download_button("⬇️ Download Brief", data=brief, file_name="market_brief.md", mime="text/markdown")
+    st.download_button("Download Brief", data=brief, file_name="market_brief.md", mime="text/markdown")
     tags = " ".join([f"<span class='tag'>{s}</span>" for s in skill_freq['skill'].head(12)])
     st.markdown(f"<div style='margin-top:10px;'>{tags}</div>", unsafe_allow_html=True)
 
