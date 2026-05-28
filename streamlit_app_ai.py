@@ -109,11 +109,34 @@ def clean_html(t):
 
 def parse_salary(s):
     if not s: return None
-    nums = re.findall(r'\d+\.?\d*', str(s).replace(',', ''))
+    s = str(s)
+    
+    # Detect Indian Rupees and convert to USD
+    is_rupee = '₹' in s or 'inr' in s.lower() or 'lakh' in s.lower()
+    
+    nums = re.findall(r'\d+\.?\d*', s.replace(',',''))
     vals = [float(n) for n in nums if float(n) > 1000]
     if not vals: return None
-    if '/hr' in str(s).lower(): vals = [v * 2080 for v in vals]
-    return sum(vals[:2]) / min(len(vals[:2]), 2)
+    
+    # Convert hourly to annual
+    if '/hr' in s.lower() or 'hour' in s.lower():
+        vals = [v * 2080 for v in vals]
+    
+    # Handle lakhs (1 lakh = 100,000 rupees)
+    if 'lakh' in s.lower():
+        vals = [v * 100000 for v in vals]
+    
+    salary = sum(vals[:2]) / min(len(vals[:2]), 2)
+    
+    # Convert INR to USD (1 USD ≈ 83 INR)
+    if is_rupee:
+        salary = salary / 83
+    
+    # Filter out unrealistic salaries
+    if salary < 10000 or salary > 2000000:
+        return None
+        
+    return salary
 
 def process_jobs(good, role, location):
     rows = []
