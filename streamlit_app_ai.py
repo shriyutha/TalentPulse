@@ -274,8 +274,7 @@ def fetch_live_from_brightdata(role: str, location: str):
             pass
         mins = (i * 15) // 60
         secs = (i * 15) % 60
-        placeholder.info(f Bright Data collecting {role} jobs in {location}... ({mins}m {secs}s)")
-
+        placeholder.info(f"Bright Data collecting {role} jobs in {location}... ({mins}m {secs}s)")
     placeholder.empty()
     return None
 
