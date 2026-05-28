@@ -15,6 +15,8 @@ Live App: https://talentpulse-nw2wgszdfrsasc5vre28dr.streamlit.app
 
 Notebook: TalentPulse.ipynb
 
+<img width="1446" height="640" alt="Dashboard" src="https://github.com/user-attachments/assets/ca4c9132-20e7-445d-be5a-4d5ad6aea254" />
+
 ---
 
 ## What is TalentPulse?
