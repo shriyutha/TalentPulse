@@ -240,33 +240,41 @@ def make_chart(fig, height=400):
 
 # Sidebar
 with st.sidebar:
-    st.markdown("""
-    <div style='text-align:center;padding:20px 0;'>
+    try:
+        st.markdown("""
+        <div style='text-align:center;padding:20px 0;'>
         <div style='font-family:Space Mono;font-size:1.5rem;color:#00d4ff;font-weight:700;'> TalentPulse</div>
         <div style='color:#8899bb;font-size:0.75rem;margin-top:5px;'>AI Hiring Intelligence</div>
-    </div>
-    """, unsafe_allow_html=True)
-    st.markdown("---")
-    st.markdown("### Live Job Search")
-    st.markdown("<p style='color:#8899bb;font-size:0.82rem;'>Powered by Bright Data LinkedIn Scraper</p>", unsafe_allow_html=True)
-    role = st.selectbox("Job Role", list(CACHED.keys()) + ["Business Analyst","Deep Learning Engineer"])
-    location = st.selectbox("Location", ["United States","India","United Kingdom","Canada"])
-    search_btn = st.button("Search Live Jobs")
-    is_cached = role in CACHED
-    if is_cached:
-        st.success(" Instant load available!")
-    else:
-        st.info("Will fetch live from Bright Data (~15 mins)")
-    st.markdown("---")
-    st.markdown("""
-    <div style='font-size:0.8rem;color:#8899bb;'>
-        <div style='margin-bottom:6px;'><span class='bright-badge'>BRIGHT DATA</span> 15 Snapshots</div>
-        <div style='margin-bottom:4px;'> Claude Sonnet 4.6</div>
-        <div style='margin-bottom:4px;'> 16,611 Jobs</div>
-        <div> USA + India</div>
-    </div>
-    """, unsafe_allow_html=True)
+        </div>
+        """, unsafe_allow_html=True)
+        st.markdown("---")
+        st.markdown("### Live Job Search")
+        st.markdown("<p style='color:#8899bb;font-size:0.82rem;'>Powered by Bright Data LinkedIn Scraper</p>", unsafe_allow_html=True)
+        role = st.selectbox("Job Role", list(CACHED.keys()) + ["Business Analyst","Deep Learning Engineer"])
+        location = st.selectbox("Location", ["United States","India","United Kingdom","Canada"])
+        search_btn = st.button("Search Live Jobs")
+        is_cached = role in CACHED
+        if is_cached:
+            st.success("Instant load available!")
+        else:
+            st.info("Will fetch live from Bright Data (~15 mins)")
+        st.markdown("---")
+        st.markdown("""
+        <div style='font-size:0.8rem;color:#8899bb;'>
+            <div style='margin-bottom:6px;'><span class='bright-badge'>BRIGHT DATA</span> 15 Snapshots</div>
+            <div style='margin-bottom:4px;'> Claude Sonnet 4.6</div>
+            <div style='margin-bottom:4px;'> 16,611 Jobs</div>
+            <div> USA + India</div>
+        </div>
+        """, unsafe_allow_html=True)
+    except Exception as e:
+        st.error(f"Sidebar error: {e}")
+        role = st.selectbox("Job Role", ["Data Scientist","ML Engineer","AI Engineer","Data Engineer"])
+        location = st.selectbox("Location", ["United States","India"])
+        search_btn = st.button("Search")
 
+        
+    
 # Header
 st.markdown("""
 <div style='display:flex;align-items:center;justify-content:space-between;padding-bottom:20px;'>
