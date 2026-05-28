@@ -199,7 +199,7 @@ def process_jobs(good: list, role: str, location: str) -> dict:
     }
 
 
-def load_cached_snapshot(role: str, location: str) -> dict | None:
+def load_cached_snapshot(role: str, location: str):
     """Load from cached snapshot file if available."""
     key = (role, location)
     if key not in CACHED_SNAPSHOTS:
@@ -218,7 +218,7 @@ def load_cached_snapshot(role: str, location: str) -> dict | None:
         return None
 
 
-def fetch_live_from_brightdata(role: str, location: str) -> dict | None:
+def fetch_live_from_brightdata(role: str, location: str):
     """Trigger a new Bright Data snapshot and wait for results."""
     api_key = os.getenv('BRIGHTDATA_API_KEY', '')
     if not api_key:
@@ -274,7 +274,7 @@ def fetch_live_from_brightdata(role: str, location: str) -> dict | None:
             pass
         mins = (i * 15) // 60
         secs = (i * 15) % 60
-        placeholder.info(f"🌐 Bright Data collecting {role} jobs in {location}... ({mins}m {secs}s)")
+        placeholder.info(f Bright Data collecting {role} jobs in {location}... ({mins}m {secs}s)")
 
     placeholder.empty()
     return None
@@ -294,13 +294,13 @@ def make_chart(fig, height=400):
 with st.sidebar:
     st.markdown("""
     <div style='text-align:center;padding:20px 0;'>
-        <div style='font-family:Space Mono;font-size:1.5rem;color:#00d4ff;font-weight:700;'>⚡ TalentPulse</div>
+        <div style='font-family:Space Mono;font-size:1.5rem;color:#00d4ff;font-weight:700;'> TalentPulse</div>
         <div style='color:#8899bb;font-size:0.75rem;margin-top:5px;'>AI Hiring Intelligence</div>
     </div>
     """, unsafe_allow_html=True)
 
     st.markdown("---")
-    st.markdown("### 🔍 Live Job Search")
+    st.markdown("### Live Job Search")
     st.markdown("<p style='color:#8899bb;font-size:0.82rem;'>Powered by Bright Data LinkedIn Scraper</p>", unsafe_allow_html=True)
 
     role = st.selectbox("Job Role", [
@@ -314,22 +314,22 @@ with st.sidebar:
         "Canada", "Germany", "Australia",
     ])
 
-    search_btn = st.button("⚡ Search Live Jobs")
+    search_btn = st.button("Search Live Jobs")
 
     # Check if cached
     is_cached = (role, location) in CACHED_SNAPSHOTS
     if is_cached:
-        st.success("⚡ Instant load available!")
+        st.success("Instant load available!")
     else:
-        st.info("🌐 Will fetch live from Bright Data (~15 mins)")
+        st.info("Will fetch live from Bright Data (~15 mins)")
 
     st.markdown("---")
     st.markdown("""
     <div style='font-size:0.8rem;color:#8899bb;'>
         <div style='margin-bottom:6px;'><span class='bright-badge'>BRIGHT DATA</span> LinkedIn Scraper</div>
-        <div style='margin-bottom:4px;'>🤖 Claude Sonnet 4.6</div>
-        <div style='margin-bottom:4px;'>📊 16,611 Pre-loaded Jobs</div>
-        <div>🌍 USA + India</div>
+        <div style='margin-bottom:4px;'> Claude Sonnet 4.6</div>
+        <div style='margin-bottom:4px;'> 16,611 Pre-loaded Jobs</div>
+        <div> USA + India</div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -354,14 +354,14 @@ if search_btn:
     cached = load_cached_snapshot(role, location)
     if cached:
         st.session_state['data'] = cached
-        st.success(f"⚡ Loaded {cached['count']:,} {role} jobs in {location} (Bright Data snapshot)")
+        st.success(f"Loaded {cached['count']:,} {role} jobs in {location} (Bright Data snapshot)")
     else:
         # Fetch live
-        with st.spinner(f"🌐 Triggering Bright Data snapshot for {role} in {location}..."):
+        with st.spinner(f"Triggering Bright Data snapshot for {role} in {location}..."):
             live = fetch_live_from_brightdata(role, location)
         if live:
             st.session_state['data'] = live
-            st.success(f"✅ Fetched {live['count']:,} live {role} jobs from Bright Data!")
+            st.success(f"Fetched {live['count']:,} live {role} jobs from Bright Data!")
         else:
             st.error("Could not fetch live data. Check your BRIGHTDATA_API_KEY.")
 
@@ -435,7 +435,7 @@ if 'data' not in st.session_state:
             "count": len(df_all), "is_live": False,
             "role": "All Roles", "location": "USA + India",
         }
-        st.info("📊 Showing all 16,611 jobs. Select a role and click Search to filter!")
+        st.info("Showing all 16,611 jobs. Select a role and click Search to filter!")
     else:
         st.warning("Upload JSON files to the app directory to load data.")
         st.stop()
@@ -450,9 +450,9 @@ top_companies= data['top_companies']
 
 source_label = data.get('role','All Roles') + ' · ' + data.get('location','USA + India')
 if data.get('source') == 'live':
-    st.success(f"🌐 Live Bright Data snapshot | {data['count']:,} jobs | Snapshot: {data.get('snapshot_id','')}")
+    st.success(f" Live Bright Data snapshot | {data['count']:,} jobs | Snapshot: {data.get('snapshot_id','')}")
 elif data.get('source') == 'cached':
-    st.info(f"⚡ Bright Data cached snapshot | {data['count']:,} {data.get('role','')} jobs | {data.get('location','')}")
+    st.info(f" Bright Data cached snapshot | {data['count']:,} {data.get('role','')} jobs | {data.get('location','')}")
 
 # Metrics
 sal = df.dropna(subset=['salary']) if 'salary' in df.columns else pd.DataFrame()
@@ -474,14 +474,14 @@ st.markdown("<br>", unsafe_allow_html=True)
 
 # Tabs
 tab1,tab2,tab3,tab4,tab5,tab6 = st.tabs([
-    "📊 Skills","🏢 Companies","💰 Salary",
-    "🎯 Opportunities","🤖 AI Brief","⚡ Delta Alerts"
+    "Skills","Companies","Salary",
+    "Opportunities","AI Brief","Delta Alerts"
 ])
 
 with tab1:
     col1,col2 = st.columns([3,2])
     with col1:
-        st.markdown(f"#### 🔧 Top Skills — {source_label}")
+        st.markdown(f"#### Top Skills — {source_label}")
         top_sk = skill_freq.head(20)
         fig = go.Figure(go.Bar(
             x=top_sk['count'], y=top_sk['skill'], orientation='h',
@@ -493,7 +493,7 @@ with tab1:
         make_chart(fig, 520)
         st.plotly_chart(fig, use_container_width=True)
     with col2:
-        st.markdown("#### 📊 Seniority")
+        st.markdown("#### Seniority")
         sen = df['seniority'].value_counts().head(5) if 'seniority' in df.columns else pd.Series()
         if len(sen) > 0:
             fig2 = go.Figure(go.Pie(
@@ -504,7 +504,7 @@ with tab1:
             fig2.update_layout(legend=dict(font=dict(color='#c8d8f0')))
             st.plotly_chart(fig2, use_container_width=True)
 
-        st.markdown("#### 🔥 Emerging Skills")
+        st.markdown("#### Emerging Skills")
         for sk,trend in [("AI Agents","↑↑↑"),("RAG","↑↑↑"),
                           ("LangChain","↑↑"),("LangGraph","↑↑"),("Fine Tuning","↑")]:
             if sk in df.columns:
@@ -529,7 +529,7 @@ with tab2:
         fig3.update_layout(xaxis=dict(tickangle=-30))
         st.plotly_chart(fig3, use_container_width=True)
     with col2:
-        st.markdown("#### 🎯 GTM Score")
+        st.markdown("#### GTM Score")
         for _,r in top_companies.head(10).iterrows():
             score = r['gtm_score']
             color = '#00d4ff' if score>80 else '#0080ff' if score>60 else '#8899bb'
@@ -547,7 +547,7 @@ with tab3:
         sal_df = sal_df[(sal_df['salary']>=q05)&(sal_df['salary']<=q95)]
         col1,col2 = st.columns(2)
         with col1:
-            st.markdown("#### 💰 Salary Distribution")
+            st.markdown("#### Salary Distribution")
             fig4 = go.Figure(go.Histogram(
                 x=sal_df['salary'], nbinsx=20,
                 marker=dict(color='#00d4ff',opacity=0.8,
@@ -586,14 +586,14 @@ with tab3:
             </div>
             <div style='margin-top:16px;padding-top:12px;border-top:1px solid #2a3f6f;
                 font-size:0.82rem;color:#c8d8f0;'>
-                <div>🔥 PyTorch → <strong style='color:#00d4ff;'>+$25,000 premium</strong> (p&lt;0.001)</div>
-                <div>🔥 LLMs/GenAI → <strong style='color:#00d4ff;'>+$20,000 premium</strong> (p&lt;0.001)</div>
-                <div>📉 Excel → <strong style='color:#ff6b35;'>-$68,750</strong> vs ML roles</div>
+                <div> PyTorch → <strong style='color:#00d4ff;'>+$25,000 premium</strong> (p&lt;0.001)</div>
+                <div> LLMs/GenAI → <strong style='color:#00d4ff;'>+$20,000 premium</strong> (p&lt;0.001)</div>
+                <div> Excel → <strong style='color:#ff6b35;'>-$68,750</strong> vs ML roles</div>
             </div>
         </div>""", unsafe_allow_html=True)
 
 with tab4:
-    st.markdown("#### 🎯 Hottest Job Opportunities")
+    st.markdown("#### Hottest Job Opportunities")
     st.markdown("<p style='color:#8899bb;'>Low applicants + recent + easy apply = high score</p>",
                 unsafe_allow_html=True)
     if 'competition_score' in df.columns and len(df) > 0:
@@ -603,7 +603,7 @@ with tab4:
         for _, r in hot_jobs.iterrows():
             score = r['competition_score']
             color = '#22c55e' if score>=80 else '#00d4ff' if score>=60 else '#8899bb'
-            easy  = '✅ Easy Apply' if r.get('easy_apply') else ''
+            easy  = 'Easy Apply' if r.get('easy_apply') else ''
             apps  = f"{int(r['applicants'])} applicants" if r.get('applicants',0)>0 else 'Low competition'
             st.markdown(f"""<div class='card' style='padding:12px;margin:4px 0;'>
                 <div style='display:flex;justify-content:space-between;'>
@@ -618,14 +618,14 @@ with tab4:
                 </div>
             </div>""", unsafe_allow_html=True)
         csv = hot_jobs.to_csv(index=False).encode()
-        st.download_button("⬇️ Export CSV", data=csv,
+        st.download_button("Export CSV", data=csv,
                            file_name="hot_opportunities.csv", mime="text/csv")
 
 with tab5:
-    st.markdown("#### 🤖 AI Market Intelligence Brief")
+    st.markdown("#### AI Market Intelligence Brief")
     st.markdown(f"*{source_label} · Claude Sonnet 4.6 · Bright Data*")
 
-    if st.button("⚡ Generate Fresh Brief with Claude"):
+    if st.button("Generate Fresh Brief with Claude"):
         api_key = os.getenv('ANTHROPIC_API_KEY', '')
         if not api_key.startswith('sk'):
             st.error("Add ANTHROPIC_API_KEY to Streamlit secrets")
@@ -635,7 +635,7 @@ with tab5:
             top_sk  = skill_freq.head(8)['skill'].tolist()
             top_cos = df['company'].value_counts().head(5).index.tolist()
             sal_med = salary_stats['median']
-            with st.spinner("🤖 Claude is analyzing the market..."):
+            with st.spinner("Claude is analyzing the market..."):
                 resp = client.messages.create(
                     model='claude-sonnet-4-6', max_tokens=600,
                     messages=[{'role':'user','content':f"""
@@ -649,7 +649,7 @@ Write: Market Snapshot, Key Skills, GTM Targets, Watch List.
 Be specific. Under 300 words."""}]
                 )
             st.session_state['brief'] = resp.content[0].text
-            st.success("✅ Brief generated!")
+            st.success("Brief generated!")
 
     brief = st.session_state.get('brief', f"""## Market Snapshot
 **{data['count']:,} live LinkedIn jobs** for {data.get('role','Data Science')} in {data.get('location','USA')} via Bright Data.
@@ -669,16 +669,16 @@ These represent your highest-intent buyers right now.
 
     st.markdown(f"<div class='card card-accent' style='line-height:1.8;color:#c8d8f0;'>{brief}</div>",
                 unsafe_allow_html=True)
-    st.download_button("⬇️ Download Brief", data=brief,
+    st.download_button("Download Brief", data=brief,
                        file_name="market_brief.md", mime="text/markdown")
 
-    st.markdown("#### 🏷️ Top Skills")
+    st.markdown("#### Top Skills")
     tags = " ".join([f"<span class='tag'>{s}</span>"
                      for s in skill_freq['skill'].head(12)])
     st.markdown(f"<div style='margin-top:10px;'>{tags}</div>", unsafe_allow_html=True)
 
 with tab6:
-    st.markdown("#### ⚡ Real-Time Market Delta Alert")
+    st.markdown("#### Real-Time Market Delta Alert")
     st.markdown("*Comparing recent vs older postings — what changed this week*")
 
     if 'posted_time' in df.columns and len(df) > 100:
@@ -710,7 +710,7 @@ with tab6:
 
             col1, col2 = st.columns(2)
             with col1:
-                st.markdown("#### 📈 Rising Skills")
+                st.markdown("#### Rising Skills")
                 for _, r in rising.iterrows():
                     st.markdown(f"""<div style='display:flex;justify-content:space-between;
                         padding:5px 0;border-bottom:1px solid #1e3055;'>
@@ -718,7 +718,7 @@ with tab6:
                         <span style='color:#22c55e;font-family:Space Mono;'>{r['delta']:+.1f}%</span>
                     </div>""", unsafe_allow_html=True)
             with col2:
-                st.markdown("#### 📉 Falling Skills")
+                st.markdown("#### Falling Skills")
                 for _, r in falling.iterrows():
                     st.markdown(f"""<div style='display:flex;justify-content:space-between;
                         padding:5px 0;border-bottom:1px solid #1e3055;'>
@@ -726,18 +726,18 @@ with tab6:
                         <span style='color:#ff6b35;font-family:Space Mono;'>{r['delta']:+.1f}%</span>
                     </div>""", unsafe_allow_html=True)
 
-    st.markdown("#### 🏢 Company Hiring Velocity")
+    st.markdown("#### Company Hiring Velocity")
     st.markdown("""<div class='card card-orange'>
         <div style='display:grid;grid-template-columns:1fr 1fr;gap:20px;font-size:0.82rem;'>
             <div>
-                <div style='color:#ff6b35;margin-bottom:8px;font-weight:700;'>🔥 Accelerating</div>
+                <div style='color:#ff6b35;margin-bottom:8px;font-weight:700;'> Accelerating</div>
                 <div style='color:#c8d8f0;'>NVIDIA +129 roles</div>
                 <div style='color:#c8d8f0;'>Google +63 roles</div>
                 <div style='color:#c8d8f0;'>AWS +35 roles</div>
                 <div style='color:#c8d8f0;'>PwC +31 roles</div>
             </div>
             <div>
-                <div style='color:#8899bb;margin-bottom:8px;font-weight:700;'>📉 Slowing</div>
+                <div style='color:#8899bb;margin-bottom:8px;font-weight:700;'> Slowing</div>
                 <div style='color:#c8d8f0;'>Cymertek 63→0</div>
                 <div style='color:#c8d8f0;'>Andiamo 50→6</div>
                 <div style='color:#c8d8f0;'>Waymo 71→34</div>
@@ -750,7 +750,7 @@ with tab6:
 st.markdown("---")
 st.markdown("""
 <div style='text-align:center;color:#4a6080;font-size:0.8rem;padding:10px;'>
-    ⚡ TalentPulse · Built on <strong style='color:#ff6b35;'>Bright Data</strong> LinkedIn Scraper ·
+    TalentPulse · Built on <strong style='color:#ff6b35;'>Bright Data</strong> LinkedIn Scraper ·
     Powered by <strong style='color:#a855f7;'>Claude Sonnet 4.6</strong> ·
     Bright Data × lablab.ai Hackathon 2026
 </div>
