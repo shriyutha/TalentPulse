@@ -242,28 +242,28 @@ def make_chart(fig, height=400):
 with st.sidebar:
     st.markdown("""
     <div style='text-align:center;padding:20px 0;'>
-        <div style='font-family:Space Mono;font-size:1.5rem;color:#00d4ff;font-weight:700;'>⚡ TalentPulse</div>
+        <div style='font-family:Space Mono;font-size:1.5rem;color:#00d4ff;font-weight:700;'> TalentPulse</div>
         <div style='color:#8899bb;font-size:0.75rem;margin-top:5px;'>AI Hiring Intelligence</div>
     </div>
     """, unsafe_allow_html=True)
     st.markdown("---")
-    st.markdown("### 🔍 Live Job Search")
+    st.markdown("### Live Job Search")
     st.markdown("<p style='color:#8899bb;font-size:0.82rem;'>Powered by Bright Data LinkedIn Scraper</p>", unsafe_allow_html=True)
     role = st.selectbox("Job Role", list(CACHED.keys()) + ["Business Analyst","Deep Learning Engineer"])
     location = st.selectbox("Location", ["United States","India","United Kingdom","Canada"])
-    search_btn = st.button("⚡ Search Live Jobs")
+    search_btn = st.button("Search Live Jobs")
     is_cached = role in CACHED
     if is_cached:
-        st.success("⚡ Instant load available!")
+        st.success(" Instant load available!")
     else:
         st.info("Will fetch live from Bright Data (~15 mins)")
     st.markdown("---")
     st.markdown("""
     <div style='font-size:0.8rem;color:#8899bb;'>
         <div style='margin-bottom:6px;'><span class='bright-badge'>BRIGHT DATA</span> 15 Snapshots</div>
-        <div style='margin-bottom:4px;'>🤖 Claude Sonnet 4.6</div>
-        <div style='margin-bottom:4px;'>📊 16,611 Jobs</div>
-        <div>🌍 USA + India</div>
+        <div style='margin-bottom:4px;'> Claude Sonnet 4.6</div>
+        <div style='margin-bottom:4px;'> 16,611 Jobs</div>
+        <div> USA + India</div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -271,7 +271,7 @@ with st.sidebar:
 st.markdown("""
 <div style='display:flex;align-items:center;justify-content:space-between;padding-bottom:20px;'>
     <div>
-        <h1 style='margin:0;color:#00d4ff;font-family:Space Mono;font-size:2rem;'>⚡ TalentPulse</h1>
+        <h1 style='margin:0;color:#00d4ff;font-family:Space Mono;font-size:2rem;'> TalentPulse</h1>
         <p style='margin:5px 0 0;color:#8899bb;'>Live AI Hiring Intelligence · Bright Data LinkedIn Scraper · Claude Sonnet 4.6</p>
     </div>
     <span class='bright-badge'>BRIGHT DATA</span>
@@ -315,7 +315,7 @@ if 'data' not in st.session_state:
         "count": 16611, "is_live": False,
         "role": "All Roles", "location": "USA + India",
     }
-    st.info("📊 Showing real results from 16,611 jobs. Select a role and click Search!")
+    st.info("Showing real results from 16,611 jobs. Select a role and click Search!")
 
 data = st.session_state['data']
 df = data['df']
@@ -342,7 +342,7 @@ for col,val,label in [
 st.markdown("<br>", unsafe_allow_html=True)
 
 # Tabs
-tab1,tab2,tab3,tab4,tab5,tab6 = st.tabs(["📊 Skills","🏢 Companies","💰 Salary","🎯 Opportunities","🤖 AI Brief","⚡ Delta Alerts"])
+tab1,tab2,tab3,tab4,tab5,tab6 = st.tabs(["Skills","Companies","Salary","Opportunities","AI Brief","Delta Alerts"])
 
 with tab1:
     col1,col2 = st.columns([3,2])
@@ -358,7 +358,7 @@ with tab1:
         make_chart(fig, 520)
         st.plotly_chart(fig, use_container_width=True)
     with col2:
-        st.markdown("#### 📊 Seniority")
+        st.markdown("#### Seniority")
         if 'seniority' in df.columns:
             sen = df['seniority'].value_counts().head(5)
             fig2 = go.Figure(go.Pie(labels=sen.index, values=sen.values, hole=0.5,
@@ -366,7 +366,7 @@ with tab1:
             make_chart(fig2, 280)
             fig2.update_layout(legend=dict(font=dict(color='#c8d8f0')))
             st.plotly_chart(fig2, use_container_width=True)
-        st.markdown("#### 🔥 Emerging Skills")
+        st.markdown("#### Emerging Skills")
         for sk,trend in [("AI Agents","↑↑↑"),("RAG","↑↑↑"),("LangChain","↑↑"),("LangGraph","↑↑"),("Fine Tuning","↑")]:
             pct = df[sk].mean()*100 if sk in df.columns else 0
             st.markdown(f"""<div style='display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #1e3055;font-size:0.85rem;'>
@@ -377,7 +377,7 @@ with tab1:
 with tab2:
     col1,col2 = st.columns([2,1])
     with col1:
-        st.markdown("#### 🏢 Top Hiring Companies")
+        st.markdown("#### Top Hiring Companies")
         co_data = df['company'].value_counts().head(15)
         fig3 = go.Figure(go.Bar(x=co_data.index, y=co_data.values,
             marker=dict(color=co_data.values, colorscale=[[0,'#1a3a5c'],[1,'#00d4ff']])))
@@ -385,7 +385,7 @@ with tab2:
         fig3.update_layout(xaxis=dict(tickangle=-30))
         st.plotly_chart(fig3, use_container_width=True)
     with col2:
-        st.markdown("#### 🎯 GTM Score")
+        st.markdown("#### GTM Score")
         for _,r in REAL_COMPANIES.iterrows():
             score = r['gtm_score']
             color = '#00d4ff' if score>90 else '#0080ff' if score>70 else '#8899bb'
@@ -401,7 +401,7 @@ with tab3:
         sal_df = sal_df[(sal_df['salary']>=q05)&(sal_df['salary']<=q95)]
         col1,col2 = st.columns(2)
         with col1:
-            st.markdown("#### 💰 Salary Distribution")
+            st.markdown("#### Salary Distribution")
             fig4 = go.Figure(go.Histogram(x=sal_df['salary'], nbinsx=20,
                 marker=dict(color='#00d4ff', opacity=0.8, line=dict(color='#0a0f1e', width=1))))
             fig4.add_vline(x=sal_df['salary'].median(), line_dash='dash', line_color='#ff6b35',
@@ -410,7 +410,7 @@ with tab3:
             fig4.update_layout(xaxis=dict(tickformat='$,.0f'))
             st.plotly_chart(fig4, use_container_width=True)
         with col2:
-            st.markdown("#### 👔 Salary by Seniority")
+            st.markdown("#### Salary by Seniority")
             if 'seniority' in sal_df.columns:
                 sen_sal = sal_df.groupby('seniority')['salary'].median().sort_values()
                 fig5 = go.Figure(go.Bar(x=sen_sal.values, y=sen_sal.index, orientation='h',
@@ -431,14 +431,14 @@ with tab3:
         </div>""", unsafe_allow_html=True)
 
 with tab4:
-    st.markdown("#### 🎯 Hottest Job Opportunities")
+    st.markdown("#### Hottest Job Opportunities")
     st.markdown("<p style='color:#8899bb;'>Low applicants + recent + easy apply = high score</p>", unsafe_allow_html=True)
     if 'competition_score' in df.columns and len(df) > 0:
         hot_jobs = df.nlargest(15,'competition_score')[['title','company','city','competition_score','applicants','easy_apply']].copy()
         for _,r in hot_jobs.iterrows():
             score = r['competition_score']
             color = '#22c55e' if score>=80 else '#00d4ff' if score>=60 else '#8899bb'
-            easy = '✅ Easy Apply' if r.get('easy_apply') else ''
+            easy =  'Easy Apply' if r.get('easy_apply') else ''
             apps = f"{int(r['applicants'])} applicants" if r.get('applicants',0)>0 else 'Low competition'
             st.markdown(f"""<div class='card' style='padding:12px;margin:4px 0;'>
                 <div style='display:flex;justify-content:space-between;'>
@@ -451,9 +451,9 @@ with tab4:
             </div>""", unsafe_allow_html=True)
 
 with tab5:
-    st.markdown("#### 🤖 AI Market Intelligence Brief")
+    st.markdown("#### AI Market Intelligence Brief")
     st.markdown("*Generated by Claude Sonnet 4.6 · Bright Data · 16,611 live jobs*")
-    if st.button("⚡ Generate Fresh Brief with Claude"):
+    if st.button("Generate Fresh Brief with Claude"):
         api_key = os.environ.get('ANTHROPIC_API_KEY','')
         if api_key.startswith('sk'):
             try:
@@ -502,31 +502,31 @@ Anthropic (score 82) — even Claude's maker is hiring aggressively.
     st.markdown(f"<div style='margin-top:10px;'>{tags}</div>", unsafe_allow_html=True)
 
 with tab6:
-    st.markdown("#### ⚡ Real-Time Delta Alerts")
+    st.markdown("#### Real-Time Delta Alerts")
     st.markdown("*What changed in the AI job market this week*")
     st.markdown("""<div class='card card-orange'>
         <div style='font-family:Space Mono;font-size:0.75rem;color:#ff6b35;margin-bottom:12px;'>THIS WEEK — BRIGHT DATA DETECTED</div>
         <div style='color:#c8d8f0;font-size:0.85rem;line-height:1.8;'>
-            🔥 <strong>NVIDIA +129</strong> net new roles — GPU infrastructure buildout accelerating<br>
-            🔥 <strong>Google +63</strong> net new roles — LLM/AI infrastructure expansion<br>
-            📈 <strong>Stakeholder management +5.7%</strong> — market shifting from build to deploy<br>
-            📈 <strong>SQL demand +4.1%</strong> — data fundamentals still rising<br>
-            📉 <strong>Cymertek: 63→0</strong> — hiring freeze or acquisition signal<br>
-            📉 <strong>Waymo: 71→34</strong> — slowing autonomous vehicle investment
+             <strong>NVIDIA +129</strong> net new roles — GPU infrastructure buildout accelerating<br>
+             <strong>Google +63</strong> net new roles — LLM/AI infrastructure expansion<br>
+             <strong>Stakeholder management +5.7%</strong> — market shifting from build to deploy<br>
+             <strong>SQL demand +4.1%</strong> — data fundamentals still rising<br>
+             <strong>Cymertek: 63→0</strong> — hiring freeze or acquisition signal<br>
+             <strong>Waymo: 71→34</strong> — slowing autonomous vehicle investment
         </div>
     </div>""", unsafe_allow_html=True)
-    st.markdown("#### 🏢 Company Velocity")
+    st.markdown("#### Company Velocity")
     col1,col2 = st.columns(2)
     with col1:
         st.markdown("""<div class='card'>
-            <div style='color:#22c55e;font-weight:700;margin-bottom:8px;'>🔥 Accelerating</div>
+            <div style='color:#22c55e;font-weight:700;margin-bottom:8px;'> Accelerating</div>
             <div style='color:#c8d8f0;font-size:0.85rem;line-height:1.8;'>
                 NVIDIA +129 roles<br>Google +63 roles<br>AWS +35 roles<br>PwC +31 roles
             </div>
         </div>""", unsafe_allow_html=True)
     with col2:
         st.markdown("""<div class='card'>
-            <div style='color:#ff6b35;font-weight:700;margin-bottom:8px;'>📉 Slowing</div>
+            <div style='color:#ff6b35;font-weight:700;margin-bottom:8px;'> Slowing</div>
             <div style='color:#c8d8f0;font-size:0.85rem;line-height:1.8;'>
                 Cymertek 63→0<br>Andiamo 50→6<br>Waymo 71→34<br>Mount Sinai 52→15
             </div>
@@ -535,7 +535,7 @@ with tab6:
 st.markdown("---")
 st.markdown("""
 <div style='text-align:center;color:#4a6080;font-size:0.8rem;padding:10px;'>
-    ⚡ TalentPulse · Built on <strong style='color:#ff6b35;'>Bright Data</strong> ·
+    TalentPulse · Built on <strong style='color:#ff6b35;'>Bright Data</strong> ·
     Powered by <strong style='color:#a855f7;'>Claude Sonnet 4.6</strong> ·
     Bright Data × lablab.ai Hackathon 2026
 </div>
