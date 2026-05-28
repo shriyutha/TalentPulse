@@ -11,8 +11,9 @@
 > **Bright Data × lablab.ai — Web Data Unlocked Hackathon 2026**
 > Track 1: GTM Intelligence | Track 2: Finance & Market Intelligence
 
-** Live App:** https://talentpulse-nw2wgszdfrsasc5vre28dr.streamlit.app
-** Notebook:** TalentPulse.ipynb
+Live App: https://talentpulse-nw2wgszdfrsasc5vre28dr.streamlit.app
+
+Notebook: TalentPulse.ipynb
 
 ---
 
@@ -125,10 +126,10 @@ in seconds, not hours.
 ## Claude Agentic Loop
 
 Claude autonomously made **4 tool calls** to analyze the market:
-🔧 analyze_city(San Francisco)      → $200K median salary
-🔧 analyze_skill(llm_genai)         → +$25K premium, 26.7% demand
-🔧 get_top_gtm_targets(top_n=5)     → NVIDIA #1, Capital One #2
-🔧 find_hot_opportunities(score=80) → 2,429 hot jobs detected
+ * analyze_city(San Francisco)      → $200K median salary
+ * analyze_skill(llm_genai)         → +$25K premium, 26.7% demand
+ * get_top_gtm_targets(top_n=5)     → NVIDIA #1, Capital One #2
+ * find_hot_opportunities(score=80) → 2,429 hot jobs detected
 
 ### Real-Time Delta Detection
  NVIDIA    → +129 net new roles this week
