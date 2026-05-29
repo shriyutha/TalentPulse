@@ -242,7 +242,7 @@ streamlit run streamlit_app.py
 
 ## Author
 
-**Shriyutha** — Data/ML Engineer
+**Shriyutha** — Data Analyst Intern
 - GitHub: [@shriyutha](https://github.com/shriyutha)
 - Email: nidhivinay24@gmail.com
 
