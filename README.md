@@ -11,6 +11,10 @@
 > **Bright Data × lablab.ai — Web Data Unlocked Hackathon 2026**
 > Track 1: GTM Intelligence | Track 2: Finance & Market Intelligence
 
+## Run in Google Colab
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1pvKrhf2_fYXEuF4wYG_57NpOf5PMI47s?usp=sharing)
+
 Live App: https://talentpulse-nw2wgszdfrsasc5vre28dr.streamlit.app
 
 Notebook: TalentPulse.ipynb
